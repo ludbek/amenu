@@ -1,0 +1,7 @@
+{% load menu_tags %}
+
+{% if i.template %}
+   {% show_breadcrumb i.start_level i.template %}
+{% else %}
+   {% show_breadcrumb i.start_level %}
+{% endif %}
