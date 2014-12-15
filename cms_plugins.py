@@ -3,7 +3,10 @@ from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 from .models import *
 
-class MenuBelowThisPlugin(CMSPluginBase):
+class AMenuPlugin(CMSPluginBase):
+    module = "Menu"
+
+class MenuBelowThisPlugin(AMenuPlugin):
     """
     Model for menu below current page.
     """
