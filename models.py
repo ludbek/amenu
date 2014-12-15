@@ -16,3 +16,13 @@ class BreadcrumbModel(CMSPlugin):
     """
     start_level = models.PositiveIntegerField(default = 0)
     template = models.CharField(max_length = 50, null = True, blank = True)
+
+class GenericMenuModel(CMSPlugin):
+    """
+    Model for generic menu. Makes use of 'show_menu' cms tag.
+    """
+    start_level = models.PositiveIntegerField(default = 0)
+    end_level = models.PositiveIntegerField(default = 100)
+    extra_inactive = models.PositiveIntegerField(default = 0)
+    extra_active = models.PositiveIntegerField(default = 100)
+    template = models.CharField(max_length = 50, null = True, blank = True)

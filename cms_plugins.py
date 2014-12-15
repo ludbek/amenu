@@ -31,5 +31,19 @@ class BreadcrumbPlugin(AMenuPlugin):
         context.update({'i' : instance})
         return context
 
+
+class GenericMenuPlugin(AMenuPlugin):
+    """
+    Plugin allows user to render menu at different level. It uses 'show_menu' cms tag.
+    """
+    model = GenericMenuModel
+    name = _("Generic Menu")
+    render_template = "amenu/generic_menu.html"
+
+    def render(self, context, instance, placeholder):
+        context.update({'i' : instance})
+        return context
+
 plugin_pool.register_plugin(MenuBelowThisPlugin)
 plugin_pool.register_plugin(BreadcrumbPlugin)
+plugin_pool.register_plugin(GenericMenuPlugin)
