@@ -1,5 +1,6 @@
 from django.db import models
 from cms.models import CMSPlugin
+from cms.models.pagemodel import Page
 
 class MenuBelowThisModel(CMSPlugin):
     """
@@ -26,3 +27,11 @@ class GenericMenuModel(CMSPlugin):
     extra_inactive = models.PositiveIntegerField(default = 100, help_text = "Level of navigation to be displayed if a node is not a direct ancestor or decendent of the current active node. 0 is root level.")
     extra_active = models.PositiveIntegerField(default = 100, help_text = "Level of descendants of the currently active node to be displayed.")
     template = models.CharField(max_length = 50, null = True, blank = True, help_text = "Path to the template for this menu. e.g. 'amenu/template_name.html'")
+
+
+class SelectiveMenuModel(CMSPlugin):
+    """
+    Model for selective menu.
+    """
+    pages = models.ManyToManyField(Page, choices = [(page.pk, "%s %s"%('--'*page.level, str(page))) for page in Page.objects.public()])
+    depth = models.PositiveIntegerField(default = 1)

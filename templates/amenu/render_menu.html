@@ -1,0 +1,12 @@
+{% load amenu_tags %}
+
+{% for page in pages %}
+    <li {% if page.get_absolute_url = request.path %}class="selected"{% endif %}>
+        <a href="{{page.get_absolute_url}}">{{page.get_title}}</a>
+        {% if depth != 0 and page.has_children %}
+            <ul>
+                {% render_menu page depth %}
+            </ul>
+        {% endif %}
+    </li>
+{% endfor %}

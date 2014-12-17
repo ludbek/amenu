@@ -1,6 +1,8 @@
 from django.utils.translation import ugettext as _
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
+from cms.models.pagemodel import Page
+from django import forms
 from .models import *
 
 class AMenuPlugin(CMSPluginBase):
@@ -44,6 +46,28 @@ class GenericMenuPlugin(AMenuPlugin):
         context.update({'i' : instance})
         return context
 
+
+# class SelectiveMenuForm(forms.ModelForm):
+#     pages = forms.MultipleChoiceField(choices = [(page.pk, "%s %s"%('--'*page.level, str(page))) for page in Page.objects.public()], widget = forms.CheckboxSelectMultiple)
+
+#     class Meta:
+#         model = SelectiveMenuModel
+
+
+class SelectiveMenuPlugin(AMenuPlugin):
+    """
+    Plugin allows user to render selected menus.
+    """
+    model = SelectiveMenuModel
+    name = _("Selective Menu")
+    render_template = "amenu/selective_menu.html"
+    # form = SelectiveMenuForm
+
+    def render(self, context, instance, placeholder):
+        context.update({'page' : instance.pages.all()[0], 'depth' : instance.depth})
+        return context
+
 plugin_pool.register_plugin(MenuBelowThisPlugin)
 plugin_pool.register_plugin(BreadcrumbPlugin)
 plugin_pool.register_plugin(GenericMenuPlugin)
+plugin_pool.register_plugin(SelectiveMenuPlugin)
