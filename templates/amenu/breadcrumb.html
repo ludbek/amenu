@@ -1,9 +1,11 @@
 {% load menu_tags %}
 
-<ul class="breadcrumb">
-    {% if i.template %}
-       {% show_breadcrumb i.start_level i.template %}
-    {% else %}
-       {% show_breadcrumb i.start_level %}
-    {% endif %}
-</ul>
+<div class="breadcrumb">
+    <ul>
+        {% if i.template %}
+           {% show_breadcrumb i.start_level i.template %}
+        {% else %}
+           {% show_breadcrumb i.start_level %}
+        {% endif %}
+    </ul>
+</div>
