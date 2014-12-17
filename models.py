@@ -8,6 +8,7 @@ class MenuBelowThisModel(CMSPlugin):
     """
     depth = models.PositiveIntegerField(max_length = 3, default = 1, help_text = "Depth from current menu.")
     template = models.CharField(max_length = 50, null = True, blank = True, help_text = "Path to the template for this menu. e.g. 'amenu/template_name.html'")
+    display_menu_heading = models.BooleanField(default = 1)
 
 
 class BreadcrumbModel(CMSPlugin):
