@@ -36,3 +36,4 @@ class SelectiveMenuModel(CMSPlugin):
     """
     pages = models.ManyToManyField(Page, choices = [(page.pk, "%s %s"%('--'*page.level, str(page))) for page in Page.objects.public()])
     depth = models.PositiveIntegerField(default = 1)
+    display_menu_heading = models.BooleanField(default = 1)
