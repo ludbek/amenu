@@ -1,0 +1,9 @@
+include README.md
+include LICENSE.txt
+include MANIFEST.in
+recursive-include amenu *
+recursive-include amenu/migrations *
+recursive-include amenu/templatetags *
+recursive-include amenu/templates *
+recursive-include amenu/templates/amenu *
+recursive-exclude * *.pyc
