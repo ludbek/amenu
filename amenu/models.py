@@ -1,6 +1,7 @@
 from django.db import models
 from cms.models import CMSPlugin
 from cms.models.pagemodel import Page
+from cms.models.fields import PageField
 
 class MenuBelowThisModel(CMSPlugin):
     """
@@ -34,6 +35,6 @@ class SelectiveMenuModel(CMSPlugin):
     """
     Model for selective menu.
     """
-    page = models.ForeignKey(Page, choices = [(page.pk, "%s %s"%('--'*page.level, str(page))) for page in Page.objects.public()])
+    page = PageField()
     depth = models.PositiveIntegerField(default = 1)
     display_menu_heading = models.BooleanField(default = 1)

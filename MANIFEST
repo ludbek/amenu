@@ -6,15 +6,6 @@ setup.py
 amenu/__init__.py
 amenu/cms_plugins.py
 amenu/models.py
-amenu/migrations/0001_initial.py
-amenu/migrations/0002_auto__add_breadcrumbmodel.py
-amenu/migrations/0003_auto__add_genericmenumodel.py
-amenu/migrations/0004_auto__add_field_genericmenumodel_template.py
-amenu/migrations/0005_auto__add_selectivemenumodel.py
-amenu/migrations/0006_auto__del_field_selectivemenumodel_depth.py
-amenu/migrations/0007_auto__add_field_selectivemenumodel_depth.py
-amenu/migrations/0008_auto__add_field_menubelowthismodel_display_menu_heading.py
-amenu/migrations/0009_auto__add_field_selectivemenumodel_display_menu_heading.py
 amenu/migrations/__init__.py
 amenu/templates/amenu/breadcrumb.html
 amenu/templates/amenu/generic_menu.html
