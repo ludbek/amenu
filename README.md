@@ -1,9 +1,3 @@
-# amenu
-
-This is a menu plugins for DjangoCMS. It provides 4 different kinds of menu plugins.
-
-1. Menu Below Current Page
-2. Breadcrumb
 ````python
 amenu
     This is a menu plugins for DjangoCMS. It provides 4 different kinds of menu plugins.
