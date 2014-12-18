@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='amenu',
-    version='1.0.0',
+    version='1.0.1',
     author='ludbek',
     author_email='sth.srn@gmail.com',
     packages=['amenu'],
