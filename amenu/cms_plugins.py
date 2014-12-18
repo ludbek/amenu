@@ -64,7 +64,7 @@ class SelectiveMenuPlugin(AMenuPlugin):
     # form = SelectiveMenuForm
 
     def render(self, context, instance, placeholder):
-        context.update({'i' : instance, 'page' : instance.pages.all()[0], 'depth' : instance.depth})
+        context.update({'i' : instance})
         return context
 
 plugin_pool.register_plugin(MenuBelowThisPlugin)

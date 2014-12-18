@@ -13,21 +13,82 @@ class Migration(SchemaMigration):
             (u'cmsplugin_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['cms.CMSPlugin'], unique=True, primary_key=True)),
             ('depth', self.gf('django.db.models.fields.PositiveIntegerField')(default=1, max_length=3)),
             ('template', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
+            ('display_menu_heading', self.gf('django.db.models.fields.BooleanField')(default=True)),
         ))
         db.send_create_signal(u'amenu', ['MenuBelowThisModel'])
+
+        # Adding model 'BreadcrumbModel'
+        db.create_table(u'amenu_breadcrumbmodel', (
+            (u'cmsplugin_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['cms.CMSPlugin'], unique=True, primary_key=True)),
+            ('start_level', self.gf('django.db.models.fields.PositiveIntegerField')(default=0)),
+            ('template', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
+        ))
+        db.send_create_signal(u'amenu', ['BreadcrumbModel'])
+
+        # Adding model 'GenericMenuModel'
+        db.create_table(u'amenu_genericmenumodel', (
+            (u'cmsplugin_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['cms.CMSPlugin'], unique=True, primary_key=True)),
+            ('start_level', self.gf('django.db.models.fields.PositiveIntegerField')(default=0)),
+            ('end_level', self.gf('django.db.models.fields.PositiveIntegerField')(default=100)),
+            ('extra_inactive', self.gf('django.db.models.fields.PositiveIntegerField')(default=100)),
+            ('extra_active', self.gf('django.db.models.fields.PositiveIntegerField')(default=100)),
+            ('template', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
+        ))
+        db.send_create_signal(u'amenu', ['GenericMenuModel'])
+
+        # Adding model 'SelectiveMenuModel'
+        db.create_table(u'amenu_selectivemenumodel', (
+            (u'cmsplugin_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['cms.CMSPlugin'], unique=True, primary_key=True)),
+            ('page', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['cms.Page'])),
+            ('depth', self.gf('django.db.models.fields.PositiveIntegerField')(default=1)),
+            ('display_menu_heading', self.gf('django.db.models.fields.BooleanField')(default=True)),
+        ))
+        db.send_create_signal(u'amenu', ['SelectiveMenuModel'])
 
 
     def backwards(self, orm):
         # Deleting model 'MenuBelowThisModel'
         db.delete_table(u'amenu_menubelowthismodel')
 
+        # Deleting model 'BreadcrumbModel'
+        db.delete_table(u'amenu_breadcrumbmodel')
+
+        # Deleting model 'GenericMenuModel'
+        db.delete_table(u'amenu_genericmenumodel')
+
+        # Deleting model 'SelectiveMenuModel'
+        db.delete_table(u'amenu_selectivemenumodel')
+
 
     models = {
+        u'amenu.breadcrumbmodel': {
+            'Meta': {'object_name': 'BreadcrumbModel', '_ormbases': ['cms.CMSPlugin']},
+            u'cmsplugin_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['cms.CMSPlugin']", 'unique': 'True', 'primary_key': 'True'}),
+            'start_level': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
+            'template': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'})
+        },
+        u'amenu.genericmenumodel': {
+            'Meta': {'object_name': 'GenericMenuModel', '_ormbases': ['cms.CMSPlugin']},
+            u'cmsplugin_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['cms.CMSPlugin']", 'unique': 'True', 'primary_key': 'True'}),
+            'end_level': ('django.db.models.fields.PositiveIntegerField', [], {'default': '100'}),
+            'extra_active': ('django.db.models.fields.PositiveIntegerField', [], {'default': '100'}),
+            'extra_inactive': ('django.db.models.fields.PositiveIntegerField', [], {'default': '100'}),
+            'start_level': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
+            'template': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'})
+        },
         u'amenu.menubelowthismodel': {
             'Meta': {'object_name': 'MenuBelowThisModel', '_ormbases': ['cms.CMSPlugin']},
             u'cmsplugin_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['cms.CMSPlugin']", 'unique': 'True', 'primary_key': 'True'}),
             'depth': ('django.db.models.fields.PositiveIntegerField', [], {'default': '1', 'max_length': '3'}),
+            'display_menu_heading': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'template': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'})
+        },
+        u'amenu.selectivemenumodel': {
+            'Meta': {'object_name': 'SelectiveMenuModel', '_ormbases': ['cms.CMSPlugin']},
+            u'cmsplugin_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['cms.CMSPlugin']", 'unique': 'True', 'primary_key': 'True'}),
+            'depth': ('django.db.models.fields.PositiveIntegerField', [], {'default': '1'}),
+            'display_menu_heading': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'page': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['cms.Page']"})
         },
         'cms.cmsplugin': {
             'Meta': {'object_name': 'CMSPlugin'},
@@ -44,11 +105,49 @@ class Migration(SchemaMigration):
             'rght': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
             'tree_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'})
         },
+        'cms.page': {
+            'Meta': {'ordering': "('tree_id', 'lft')", 'unique_together': "(('publisher_is_draft', 'application_namespace'), ('reverse_id', 'site', 'publisher_is_draft'))", 'object_name': 'Page'},
+            'application_namespace': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
+            'application_urls': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '200', 'null': 'True', 'blank': 'True'}),
+            'changed_by': ('django.db.models.fields.CharField', [], {'max_length': '70'}),
+            'changed_date': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'created_by': ('django.db.models.fields.CharField', [], {'max_length': '70'}),
+            'creation_date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'in_navigation': ('django.db.models.fields.BooleanField', [], {'default': 'True', 'db_index': 'True'}),
+            'is_home': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'db_index': 'True'}),
+            'languages': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'level': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
+            'lft': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
+            'limit_visibility_in_menu': ('django.db.models.fields.SmallIntegerField', [], {'default': 'None', 'null': 'True', 'db_index': 'True', 'blank': 'True'}),
+            'login_required': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'navigation_extenders': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '80', 'null': 'True', 'blank': 'True'}),
+            'parent': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'children'", 'null': 'True', 'to': "orm['cms.Page']"}),
+            'placeholders': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['cms.Placeholder']", 'symmetrical': 'False'}),
+            'publication_date': ('django.db.models.fields.DateTimeField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
+            'publication_end_date': ('django.db.models.fields.DateTimeField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
+            'publisher_is_draft': ('django.db.models.fields.BooleanField', [], {'default': 'True', 'db_index': 'True'}),
+            'publisher_public': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "'publisher_draft'", 'unique': 'True', 'null': 'True', 'to': "orm['cms.Page']"}),
+            'reverse_id': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '40', 'null': 'True', 'blank': 'True'}),
+            'revision_id': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
+            'rght': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
+            'site': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'djangocms_pages'", 'to': u"orm['sites.Site']"}),
+            'soft_root': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'db_index': 'True'}),
+            'template': ('django.db.models.fields.CharField', [], {'default': "'INHERIT'", 'max_length': '100'}),
+            'tree_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
+            'xframe_options': ('django.db.models.fields.IntegerField', [], {'default': '0'})
+        },
         'cms.placeholder': {
             'Meta': {'object_name': 'Placeholder'},
             'default_width': ('django.db.models.fields.PositiveSmallIntegerField', [], {'null': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'slot': ('django.db.models.fields.CharField', [], {'max_length': '255', 'db_index': 'True'})
+        },
+        u'sites.site': {
+            'Meta': {'ordering': "(u'domain',)", 'object_name': 'Site', 'db_table': "u'django_site'"},
+            'domain': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         }
     }
 

@@ -1,3 +1,4 @@
 *.pyc
 dist/
 amenu.egg-info/
+/__init__.py

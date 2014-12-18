@@ -2,9 +2,9 @@
 
 <div class="menu selective">
     {% if i.display_menu_heading %}
-        <h1 class="heading">{{ page.get_title }}</h1>
+        <h1 class="heading">{{ i.page.get_title }}</h1>
     {% endif %}
     <ul>
-        {% render_menu page depth %}
+        {% render_menu i.page i.depth %}
     </ul>
 </div>
