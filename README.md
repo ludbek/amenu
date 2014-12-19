@@ -22,6 +22,7 @@ Installation
     Migrate the plugin
         $ python manage.py migrate amenu
         
-TODO:
+TODO
     - Test in Python 3
+    - Add Multiple Selective Menu
 ````
