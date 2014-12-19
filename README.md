@@ -21,4 +21,7 @@ Installation
             )
     Migrate the plugin
         $ python manage.py migrate amenu
+        
+TODO:
+    - Test in Python 3
 ````
